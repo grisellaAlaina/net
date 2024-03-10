@@ -27,10 +27,6 @@ public class QuoteController {
         this.modelMapper = modelMapper;
     }
 
-//    @GetMapping()
-//    public List<Quote> getAll() {
-//        return quoteService.findAll();
-//    }
 
     @GetMapping()
     public List<QuoteDTO> getAll() {
@@ -61,7 +57,6 @@ public class QuoteController {
 
     private Quote convertToQuote(QuoteDTO quoteDTO, Quote quote) {
         quote.setContent(quoteDTO.getContent());
-        System.out.println(quoteDTO.getContent());
         quote.setOwner(userService.findOne(quoteDTO.getOwnerId()));
         return quote;
     }

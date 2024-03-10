@@ -24,16 +24,18 @@ public class VoteService {
     }
 
 
+    @Transactional
     public void makeVote(int userId, int quoteId, boolean grade) {
         if (findVote(userId, quoteId) == null) {
             createVote(userId, quoteId, grade);
-            Quote quote = quoteService.findOne(quoteId);
-            quote.setVotes(quote.getVotes() + 1);
-            quoteService.save(quote);
+            quoteService.changeVote(quoteId, grade, true);
         }
         else {
             Vote vote = findVote(userId, quoteId);
-            if(vote.isVote() == grade) voteRepository.delete(vote);
+            if(vote.isVote() == grade) {
+                voteRepository.delete(vote);
+                quoteService.changeVote(quoteId, grade, false);
+            }
             else {
                 vote.setVote(grade);
                 voteRepository.save(vote);
@@ -41,7 +43,8 @@ public class VoteService {
         }
     }
 
-    private void createVote(int userId, int quoteId, boolean grade) {
+    @Transactional
+    public void createVote(int userId, int quoteId, boolean grade) {
         voteRepository.save(new Vote(quoteId, userId, grade));
     }
 }

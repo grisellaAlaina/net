@@ -53,4 +53,11 @@ public class QuoteService {
     }
 
 
+    @Transactional
+    public void changeVote(int quoteId, boolean grade, boolean firstTime) {
+        Quote quote = findOne(quoteId);
+        if(grade && firstTime || !grade && !firstTime) quote.setVotes(quote.getVotes() + 1);
+        else quote.setVotes(quote.getVotes() - 1);
+        quoteRepository.save(quote);
+    }
 }
