@@ -26,21 +26,24 @@ public class VoteService {
 
     @Transactional
     public void makeVote(int userId, int quoteId, boolean grade) {
+        int voteValue;
         if (findVote(userId, quoteId) == null) {
+            voteValue = grade ? 1 : -1;
             createVote(userId, quoteId, grade);
-            quoteService.changeVote(quoteId, grade, true);
         }
         else {
             Vote vote = findVote(userId, quoteId);
             if(vote.isVote() == grade) {
+                voteValue = vote.isVote() ? - 1 : 1;
                 voteRepository.delete(vote);
-                quoteService.changeVote(quoteId, grade, false);
             }
             else {
+                voteValue = vote.isVote() ? -2 : 2;
                 vote.setVote(grade);
                 voteRepository.save(vote);
             }
         }
+        quoteService.changeVote(quoteId, voteValue);
     }
 
     @Transactional

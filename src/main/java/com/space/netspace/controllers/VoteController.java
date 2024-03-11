@@ -22,7 +22,6 @@ public class VoteController {
     @PostMapping("/like")
     public ResponseEntity<HttpStatus> like(@RequestBody Vote vote) {
         voteService.makeVote(vote.getUserId(), vote.getQuoteId(), vote.isVote());
-
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
