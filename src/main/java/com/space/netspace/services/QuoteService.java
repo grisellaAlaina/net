@@ -55,7 +55,6 @@ public class QuoteService {
 
     @Transactional
     public void changeVote(int quoteId, int voteValue) {
-        System.out.println(quoteId);
         Quote quote = findOne(quoteId);
         quote.setVotes(quote.getVotes() + voteValue);
         quoteRepository.save(quote);
