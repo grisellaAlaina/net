@@ -19,8 +19,6 @@ public class QuoteService {
     public QuoteService(QuoteRepository quoteRepository) {
         this.quoteRepository = quoteRepository;
     }
-
-
     public List<Quote> findAll() {
         return quoteRepository.findAll();
     }
@@ -58,5 +56,10 @@ public class QuoteService {
         Quote quote = findOne(quoteId);
         quote.setVotes(quote.getVotes() + voteValue);
         quoteRepository.save(quote);
+    }
+
+    public List<Quote> bestOrWorst(boolean top) {
+        return top ? quoteRepository.findTop10ByOrderByVotesDesc() :
+                quoteRepository.findTop10ByOrderByVotesAsc();
     }
 }

@@ -30,9 +30,17 @@ public class QuoteController {
 
     @GetMapping()
     public List<QuoteDTO> getAll() {
-        return quoteService.findAll().stream()
-                .map(this::convrtToQuoteDTO)
-                .collect(Collectors.toList());
+        return convertToListOfQuoteDTO(quoteService.findAll());
+    }
+
+    @GetMapping("/best")
+    public List<QuoteDTO> getBest() {
+        return convertToListOfQuoteDTO(quoteService.bestOrWorst(true));
+    }
+
+    @GetMapping("/worst")
+    public List<QuoteDTO> getWorst() {
+        return convertToListOfQuoteDTO(quoteService.bestOrWorst(false));
     }
 
     @PostMapping
@@ -53,6 +61,12 @@ public class QuoteController {
     public ResponseEntity<HttpStatus> update(@PathVariable("id") int id) {
         quoteService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    private List<QuoteDTO> convertToListOfQuoteDTO(List<Quote> convertList) {
+        return convertList.stream()
+                .map(this::convrtToQuoteDTO)
+                .collect(Collectors.toList());
     }
 
     private Quote convertToQuote(QuoteDTO quoteDTO, Quote quote) {
