@@ -2,7 +2,7 @@ version: '3'
 
 services:
   my-spring-boot-app:
-    build: ./
+    build: grisella12/quoter
     container_name: 'quoter'
     ports:
       - 8080:8080
