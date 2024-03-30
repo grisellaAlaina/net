@@ -18,13 +18,11 @@ import java.util.stream.Collectors;
 public class QuoteController {
     private final QuoteService quoteService;
     private final UserService userService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public QuoteController(QuoteService quoteService, UserService userService, ModelMapper modelMapper) {
+    public QuoteController(QuoteService quoteService, UserService userService) {
         this.quoteService = quoteService;
         this.userService = userService;
-        this.modelMapper = modelMapper;
     }
 
 
