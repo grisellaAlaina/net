@@ -27,11 +27,9 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
     }
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
     public User findOne(int id) {
         Optional<User> foundUser = userRepository.findById(id);
         return foundUser.orElseThrow(UserNotFoundException::new);

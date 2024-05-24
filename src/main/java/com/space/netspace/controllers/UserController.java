@@ -41,7 +41,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserDTO getUser(@PathVariable("id") int id) {
-        return convertToUserDTO(userService.findOne(id));
+        User user = userService.findOne(id);
+        return convertToUserDTO(user);
     }
 
     @PostMapping

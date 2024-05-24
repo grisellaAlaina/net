@@ -6,8 +6,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserDTO {
-
-
     @NotEmpty(message = "name must be not empty")
     @Size(min = 1, max = 30, message = "1-30 name length please")
     private String name;

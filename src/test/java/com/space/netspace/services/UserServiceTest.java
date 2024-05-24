@@ -2,10 +2,13 @@ package com.space.netspace.services;
 
 import com.space.netspace.models.User;
 import com.space.netspace.repositories.UserRepository;
+import com.space.netspace.util.UserNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -15,36 +18,38 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
-    private static final int ID = 1;
+    final static int ID = 1;
+
+    @InjectMocks
+    UserService userService;
+
     @Mock
     UserRepository userRepository;
 
-    @InjectMocks
-    private UserService service;
-
-
     @Test
-    void findUser_shouldCallRepository() {
-        final User user = mock(User.class);
+    void findByID_shouldCallRepository() {
+        User user = mock(User.class);
         when(userRepository.findById(ID)).thenReturn(Optional.ofNullable(user));
 
-        final User actual = service.findOne(ID);
+        User currentUser = userService.findOne(ID);
 
-        assertNotNull(actual);
-        assertEquals(user, actual);
-        verify(userRepository).findById(ID);
+        assertNotNull(currentUser);
+        assertEquals(currentUser, user);
+    }
+
+    @Test
+    void notFoundUser_shouldThrowException() {
+        assertThrows(UserNotFoundException.class, () -> userService.findOne(ID));
     }
 
     @Test
     void saveUser_shouldCallRepository() {
-        final User user = mock(User.class);
+        User user = mock(User.class);
 
-        service.save(user);
+        userService.save(user);
 
         verify(userRepository).save(user);
     }
-
-
 
 
 }
